@@ -1,5 +1,8 @@
+import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,53 +20,50 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const SplashPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+    Future.delayed(Duration(seconds: 3)).then((value) {
+      Navigator.of(context).pushReplacement(
+          CupertinoPageRoute(builder: (context) => HalamanLogin()));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
+      body: SizedBox(
+        width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          children: const [
+            Image(
+              image: AssetImage('assets/image/logo.jpeg'),
+              width: 300,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            SizedBox(
+              height: 50,
             ),
+            SpinKitSpinningLines(
+              color: Colors.orange,
+              size: 50.0,
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
