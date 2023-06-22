@@ -1,3 +1,4 @@
+import 'package:final_exam_project/view/halaman_register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,6 +12,9 @@ class HalamanLogin extends StatefulWidget {
 
 class _HalamanLoginState extends State<HalamanLogin> {
   final formkey = GlobalKey<FormState>();
+
+  String? email;
+  String? password;
 
   bool eyeToggle = true;
   @override
@@ -70,6 +74,17 @@ class _HalamanLoginState extends State<HalamanLogin> {
                             labelText: 'Username/Email',
                             hintText: "Enter your username/email",
                             prefixIcon: Icon(Icons.person)),
+                        validator: (value) {
+                          bool valid = RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value!);
+                          if (value == null || value.isEmpty) {
+                            return "Please enter username or email";
+                          }
+                        },
+                        onChanged: (value) {
+                          email = value;
+                        },
                       ),
                     ),
                   ),
@@ -94,6 +109,16 @@ class _HalamanLoginState extends State<HalamanLogin> {
                                   ? Icons.visibility_off
                                   : Icons.visibility),
                             )),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your password";
+                          } else if (value.length < 6) {
+                            return "Please enter your password until 6 charachter or more";
+                          }
+                        },
+                        onChanged: (value) {
+                          password = value;
+                        },
                       ),
                     ),
                   ),
@@ -131,7 +156,13 @@ class _HalamanLoginState extends State<HalamanLogin> {
                             style: TextStyle(color: Colors.grey),
                           ),
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            HalamanRegister()));
+                              },
                               child: Text(
                                 "Sign Up",
                                 style: TextStyle(color: Colors.deepOrange),
