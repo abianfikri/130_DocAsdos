@@ -1,16 +1,12 @@
-# final_exam_project
+# DocAsdos
 
 A new Flutter project.
 
-## Getting Started
+## Deskripsi Aplikasi
+Aplikasi ini berfungsi untuk memanage data dokumentasi asisten per matakuliah yang sedang mengasdos, lalu yang sebagai admin adalah staff tu bertugas untuk menginputkan nama matkul dan membaca dokumentasi asisten dosen. dan user satunya lagi adalah asisten itu sendiri yang bisa melakukan CRUD data dokumentasi yang berisikan data nama asisten, nama matakuliah yang sedang di asdos, tanggal asisten, jam asisten, dan gambar dokumentasi. kemudian data tersebut dapat di simpan kedalam firebase lalu ditampilkan dalam bentuk list dan juga bisa di edit maupun delete.
 
-This project is a starting point for a Flutter application.
+## 1. Flowchart
+![Alt text](assets/data/flowchart.png)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 2. UseCase
+![Alt text](assets/data/UseCase.jpg)

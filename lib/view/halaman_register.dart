@@ -158,7 +158,7 @@ class _HalamanRegisterState extends State<HalamanRegister> {
                       if (formkey.currentState!.validate()) {
                         UserModel? registeredUser =
                             await authctr.registeremailPassword(
-                                email!, password!, username!, role!);
+                                email!, password!, username!, role);
 
                         if (registeredUser != null) {
                           // Registration successful
