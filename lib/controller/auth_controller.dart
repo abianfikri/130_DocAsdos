@@ -33,6 +33,31 @@ class AuthController {
     }
   }
 
+  Future<UserModel?> signEmailandPassword(String email, String password) async {
+    try {
+      final UserCredential userCredential = await auth
+          .signInWithEmailAndPassword(email: email, password: password);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        final DocumentSnapshot snapshot =
+            await userCollection.doc(user.uid).get();
+
+        final UserModel currentUser = UserModel(
+            username: snapshot['username'] ?? '',
+            email: user.email ?? '',
+            uid: user.uid,
+            role: snapshot['role']);
+
+        return currentUser;
+      }
+    } catch (e) {
+      print('Error signing in: $e');
+    }
+
+    return null;
+  }
+
   UserModel? getCurrentUser() {
     final User? user = auth.currentUser;
     if (user != null) {

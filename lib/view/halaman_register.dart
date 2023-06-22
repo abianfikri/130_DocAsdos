@@ -19,7 +19,8 @@ class _HalamanRegisterState extends State<HalamanRegister> {
   String? username;
   String? email;
   String? password;
-  String? role;
+
+  String role = 'Asisten';
   bool eyeToogle = true;
   @override
   Widget build(BuildContext context) {
@@ -146,26 +147,6 @@ class _HalamanRegisterState extends State<HalamanRegister> {
                       },
                       onChanged: (value) {
                         password = value;
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Container(
-                    width: 350,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          labelText: "Role",
-                          hintText: "Enter your Role",
-                          prefixIcon: Icon(Icons.ad_units)),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your role";
-                        }
-                      },
-                      onChanged: (value) {
-                        role = value;
                       },
                     ),
                   ),
