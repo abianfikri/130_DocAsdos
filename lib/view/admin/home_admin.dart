@@ -1,4 +1,5 @@
 import 'package:final_exam_project/controller/auth_controller.dart';
+import 'package:final_exam_project/view/admin/matakuliah_page.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -98,6 +99,14 @@ class HomeAdmin extends StatelessWidget {
 
                       // Manage Data Matakuliah
                       InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MatakuliahPage(),
+                            ),
+                          );
+                        },
                         child: Container(
                           padding: EdgeInsets.all(15),
                           decoration: BoxDecoration(
