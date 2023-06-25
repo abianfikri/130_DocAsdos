@@ -1,18 +1,20 @@
 import 'package:final_exam_project/controller/auth_controller.dart';
 import 'package:final_exam_project/view/admin/matakuliah_page.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class HomeAdmin extends StatelessWidget {
-  const HomeAdmin({super.key, required this.nama});
-
-  final String nama;
+  const HomeAdmin({super.key});
 
   @override
   Widget build(BuildContext context) {
     final autctr = AuthController();
+
+    final user = FirebaseAuth.instance.currentUser!;
+
     return Scaffold(
       backgroundColor: Colors.blue.shade800,
       body: SafeArea(
@@ -36,7 +38,7 @@ class HomeAdmin extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '$nama',
+                                user.email!,
                                 style: TextStyle(
                                   fontSize: 26,
                                   fontWeight: FontWeight.bold,
@@ -200,7 +202,8 @@ class HomeAdmin extends StatelessWidget {
 
                       // Button Logout
                       InkWell(
-                        onTap: () {
+                        onTap: () async {
+                          autctr.signOut();
                           Navigator.push(
                               context,
                               MaterialPageRoute(

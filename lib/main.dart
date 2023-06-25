@@ -1,4 +1,3 @@
-import 'package:final_exam_project/view/admin/home_admin.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       home: const SplashPage(),
     );
   }
@@ -40,7 +40,10 @@ class _SplashPageState extends State<SplashPage> {
 
     Future.delayed(Duration(seconds: 3)).then((value) {
       Navigator.of(context).pushReplacement(
-          CupertinoPageRoute(builder: (context) => HalamanLogin()));
+        CupertinoPageRoute(
+          builder: (context) => HalamanLogin(),
+        ),
+      );
     });
   }
 
