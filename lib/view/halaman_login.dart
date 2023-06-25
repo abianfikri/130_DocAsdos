@@ -163,9 +163,8 @@ class _HalamanLoginState extends State<HalamanLogin> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => HomeAdmin(
-                                                  nama: signUser.username,
-                                                ),
+                                                builder: (context) =>
+                                                    HomeAdmin(),
                                               ),
                                             );
                                             print(signUser.email);
@@ -237,13 +236,14 @@ class _HalamanLoginState extends State<HalamanLogin> {
                                 color: Colors.deepOrange,
                                 borderRadius: BorderRadius.circular(50)),
                             child: Center(
-                                child: Text(
-                              'Sign In',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold),
-                            )),
+                              child: Text(
+                                'Sign In',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         ),
                       ),
