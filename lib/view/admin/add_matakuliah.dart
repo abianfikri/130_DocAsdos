@@ -115,80 +115,80 @@ class _AddMatakuliahState extends State<AddMatakuliah> {
                   Container(
                     padding: EdgeInsets.all(20),
                     child: InkWell(
-                        onTap: () async {
-                          // Save matakuliah
-                          if (formkey.currentState!.validate()) {
-                            MatakuliahModel mk = MatakuliahModel(
-                                namaMatkul: namaMatkul!,
-                                namaDosen: namaDosen!,
-                                semester: semester!);
-                            mkctr.addContact(mk);
+                      onTap: () async {
+                        // Save matakuliah
+                        if (formkey.currentState!.validate()) {
+                          MatakuliahModel mk = MatakuliahModel(
+                              namaMatkul: namaMatkul!,
+                              namaDosen: namaDosen!,
+                              semester: semester!);
+                          mkctr.addContact(mk);
 
-                            //successful
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title:
-                                      const Text('Berhasil Menambahkan data'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MatakuliahPage()));
-                                        // Navigate to the next screen or perform any desired action
-                                      },
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else {
-                            //  Failed
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text('Gagal menambahkan Data'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AddMatakuliah()));
-                                        // Navigate to the next screen or perform any desired action
-                                      },
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        },
-                        child: Container(
-                          width: 300,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.deepOrange,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Center(
-                            child: Text(
-                              'Submit',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                          //successful
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Berhasil Menambahkan data'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MatakuliahPage()));
+                                      // Navigate to the next screen or perform any desired action
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          //  Failed
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Gagal menambahkan Data'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddMatakuliah()));
+                                      // Navigate to the next screen or perform any desired action
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                      child: Container(
+                        width: 300,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.deepOrange,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Center(
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold),
                           ),
-                        )),
-                  )
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
