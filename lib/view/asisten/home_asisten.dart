@@ -3,6 +3,7 @@ import 'package:final_exam_project/controller/auth_controller.dart';
 import 'package:final_exam_project/controller/dokumentasi_controller.dart';
 import 'package:final_exam_project/controller/matakuliah_controller.dart';
 import 'package:final_exam_project/view/asisten/add_dokumentasi.dart';
+import 'package:final_exam_project/view/asisten/update_dokumentasi.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -114,6 +115,7 @@ class _HomeAsistenState extends State<HomeAsisten> {
                 ),
               ),
             ),
+            // List Data Dokumentasi
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -143,6 +145,22 @@ class _HomeAsistenState extends State<HomeAsisten> {
                             child: InkWell(
                               onLongPress: () {
                                 // Update Data
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UpdateDokumentasi(
+                                      id: data[index]['id'].toString(),
+                                      beforeAsisten:
+                                          data[index]['namaAsisten'].toString(),
+                                      beforeJam: data[index]['jam'].toString(),
+                                      beforeTanggal:
+                                          data[index]['tanggal'].toString(),
+                                      beforeMatkul:
+                                          data[index]['namaMatkul'].toString(),
+                                      uid: data[index]['uid'].toString(),
+                                    ),
+                                  ),
+                                );
                               },
                               child: Card(
                                 elevation: 15,
