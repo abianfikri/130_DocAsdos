@@ -6,14 +6,14 @@ class DokumentasiModel {
   final String namaMatkul;
   final String tanggal;
   final String jam;
-  final String uid;
+  String? uid;
   DokumentasiModel({
     this.id,
     required this.namaAsisten,
     required this.namaMatkul,
     required this.tanggal,
     required this.jam,
-    required this.uid,
+    this.uid,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,7 +34,7 @@ class DokumentasiModel {
       namaMatkul: map['namaMatkul'] ?? '',
       tanggal: map['tanggal'] ?? '',
       jam: map['jam'] ?? '',
-      uid: map['uid'] ?? '',
+      uid: map['uid'],
     );
   }
 

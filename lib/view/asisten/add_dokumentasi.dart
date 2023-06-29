@@ -1,12 +1,17 @@
+import 'dart:html';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/controller/dokumentasi_controller.dart';
 import 'package:final_exam_project/controller/matakuliah_controller.dart';
 import 'package:final_exam_project/model/dokumentasi_model.dart';
 import 'package:final_exam_project/view/asisten/home_asisten.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class AddDokumentasi extends StatefulWidget {
@@ -208,6 +213,52 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                             value: slectedClient,
                           );
                         },
+                      ),
+
+                      // Button Upload Gambar
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      InkWell(
+                        onTap: () async {
+                          //
+                          ImagePicker imagePicker = ImagePicker();
+                          XFile? file = await imagePicker.pickImage(
+                              source: ImageSource.camera);
+
+                          String uniqueFileName =
+                              DateTime.now().millisecondsSinceEpoch.toString();
+
+                          print('${file?.path}');
+
+                          Reference referenceRoot =
+                              FirebaseStorage.instance.ref();
+
+                          Reference referenceDirImage =
+                              referenceRoot.child('images');
+
+                          // create a reference
+
+                          Reference referenceImageToUpload =
+                              referenceDirImage.child(uniqueFileName);
+
+                          // Store
+                        },
+                        child: Container(
+                          width: 300,
+                          height: 35,
+                          decoration: BoxDecoration(color: Colors.blue),
+                          child: Center(
+                            child: Text(
+                              "Upload Foto",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
 
                       // Button Submit
