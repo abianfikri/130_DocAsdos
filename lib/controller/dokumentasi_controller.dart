@@ -39,4 +39,24 @@ class DokumentasiController {
 
     return dokumen.docs;
   }
+
+  Future updateDokumentasi(DokumentasiModel dokumentasiModel) async {
+    final DokumentasiModel updateDok = DokumentasiModel(
+        id: dokumentasiModel.id,
+        namaMatkul: dokumentasiModel.namaMatkul,
+        namaAsisten: dokumentasiModel.namaAsisten,
+        jam: dokumentasiModel.jam,
+        tanggal: dokumentasiModel.tanggal,
+        uid: dokumentasiModel.uid);
+
+    await dokumentasiCollection
+        .doc(dokumentasiModel.id)
+        .update(updateDok.toMap());
+    await getDokumentasi();
+  }
+
+  Future deleteDokumentasi(String id) async {
+    await dokumentasiCollection.doc(id).delete();
+    await getDokumentasi();
+  }
 }
