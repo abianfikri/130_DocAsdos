@@ -1,8 +1,10 @@
 import 'package:final_exam_project/controller/auth_controller.dart';
+import 'package:final_exam_project/main_page.dart';
 import 'package:final_exam_project/model/user_model.dart';
 import 'package:final_exam_project/view/admin/home_admin.dart';
 import 'package:final_exam_project/view/asisten/home_asisten.dart';
 import 'package:final_exam_project/view/halaman_register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -79,6 +81,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
                       Container(
                         width: 350,
                         child: TextFormField(
+                          autofocus: true,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -144,81 +147,109 @@ class _HalamanLoginState extends State<HalamanLogin> {
                         child: InkWell(
                           onTap: () async {
                             if (formkey.currentState!.validate()) {
-                              UserModel? signUser = await authctr
-                                  .signEmailandPassword(email!, password!);
+                              try {
+                                UserModel? signUser = await authctr
+                                    .signEmailandPassword(email!, password!);
 
-                              if (signUser != null &&
-                                  signUser.role == "Admin") {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title:
-                                          const Text('Login Admin Successful'),
-                                      content: const Text(
-                                          'You have been successfully Loginned.'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomeAdmin(),
-                                              ),
-                                            );
-                                            print(signUser.email);
-                                            // Navigate to the next screen or perform any desired action
-                                          },
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else if (signUser!.role == "Asisten") {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                          'Login Asisten Successful'),
-                                      content: const Text(
-                                          'You have been successfully Loginned.'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
+                                if (signUser != null &&
+                                    signUser.role == "Admin") {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                            'Login Admin Successful'),
+                                        content: const Text(
+                                            'You have been successfully Loginned.'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomeAsisten()));
-                                            print(signUser.email);
-                                            // Navigate to the next screen or perform any desired action
-                                          },
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else {
-                                // Login failed
+                                                  builder: (context) =>
+                                                      MainPage(),
+                                                ),
+                                              );
+                                              print(signUser.email);
+                                              // Navigate to the next screen or perform any desired action
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else if (signUser!.role == "Asisten") {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                            'Login Asisten Successful'),
+                                        content: const Text(
+                                            'You have been successfully Loginned.'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MainPage()),
+                                                  ((route) => false));
+                                              print(signUser.email);
+                                              // Navigate to the next screen or perform any desired action
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  // Login failed
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Login Failed'),
+                                        content: const Text(
+                                            'An error occurred during Login.'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HalamanLogin()));
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              } catch (e) {
+                                // Login gagal
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text('Login Failed'),
                                       content: const Text(
-                                          'An error occurred during Login.'),
+                                          'Invalid email or password.'),
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () {
                                             Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HalamanLogin()));
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HalamanLogin()),
+                                            );
                                           },
                                           child: const Text('OK'),
                                         ),
