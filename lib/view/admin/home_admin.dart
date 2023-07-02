@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/controller/auth_controller.dart';
+import 'package:final_exam_project/view/admin/dokumentasi_page.dart';
 import 'package:final_exam_project/view/admin/matakuliah_page.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,8 +17,11 @@ class HomeAdmin extends StatelessWidget {
 
     final user = FirebaseAuth.instance.currentUser!;
 
+    final CollectionReference userCollection =
+        FirebaseFirestore.instance.collection('users');
+
     return Scaffold(
-      backgroundColor: Colors.blue.shade800,
+      backgroundColor: Color.fromARGB(255, 4, 64, 155),
       body: SafeArea(
         child: Column(
           children: [
@@ -37,18 +42,30 @@ class HomeAdmin extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                user.email!,
-                                style: TextStyle(
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
+                              FutureBuilder<DocumentSnapshot>(
+                                future: userCollection.doc(user.uid).get(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return CircularProgressIndicator();
+                                  }
+
+                                  final username = snapshot.data?['username'];
+
+                                  return Text(
+                                    'Hello, ' +
+                                        username.toString().toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                },
                               ),
                               Text(
                                 "Admin",
                                 style: TextStyle(
-                                    fontSize: 17, color: Colors.white),
+                                    fontSize: 18, color: Colors.black),
                               )
                             ],
                           )
@@ -72,164 +89,6 @@ class HomeAdmin extends StatelessWidget {
                 ],
               ),
             ),
-            // Container end username admin, logout
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                  ),
-                ),
-                padding: EdgeInsets.all(30),
-                child: Center(
-                  child: Column(
-                    children: [
-                      // Menu App heading
-                      Text(
-                        "Menu App",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: 60,
-                      ),
-
-                      // Manage Data Matakuliah
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MatakuliahPage(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.favorite,
-                              ),
-                              SizedBox(
-                                width: 50,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Manage Data',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'Matakuliah',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-
-                      // Manage Data Dokumentasi
-                      InkWell(
-                        child: Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.favorite,
-                              ),
-                              SizedBox(
-                                width: 50,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Manage Data',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'Dokumentasi',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: 70,
-                      ),
-
-                      // Button Logout
-                      InkWell(
-                        onTap: () async {
-                          autctr.signOut();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HalamanLogin()));
-                        },
-                        child: Container(
-                          width: 300,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Center(
-                              child: Text(
-                            'Logout',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold),
-                          )),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
           ],
           // Last Column
         ),
