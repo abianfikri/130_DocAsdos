@@ -1,6 +1,4 @@
-import 'dart:html';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/controller/dokumentasi_controller.dart';
 import 'package:final_exam_project/controller/matakuliah_controller.dart';
@@ -28,6 +26,7 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
 
   String? namaAsisten;
   String? namaMatkul;
+  String? imageUrl;
   TextEditingController _tanggal = new TextEditingController();
   TextEditingController _jam = new TextEditingController();
 
@@ -38,43 +37,41 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade800,
+      backgroundColor: Colors.blue.shade900,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: <Widget>[
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      // Back to Home
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeAsisten(),
-                        ),
-                      );
-                    },
-                    icon: Icon(Icons.arrow_back),
-                    iconSize: 40,
-                  ),
-                ],
-              ),
-              // Heading Dokumentasi
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Add Dokumentasi",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              Container(
+                height: 60,
+                decoration: BoxDecoration(color: Colors.blue.shade800),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        // Back to Home
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeAsisten(),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.arrow_back),
+                      iconSize: 40,
                     ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  )
-                ],
+                    SizedBox(
+                      width: 70,
+                    ),
+                    Text(
+                      "Add Dokumentasi",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               // Form Add Data
@@ -84,6 +81,7 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                   ),
+                  height: 675,
                   padding: EdgeInsets.all(26),
                   child: Column(
                     children: [
@@ -220,6 +218,19 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                         height: 20,
                       ),
 
+                      Container(
+                        height: 80,
+                        width: 60,
+                        decoration: BoxDecoration(color: Colors.amber),
+                        child: imageUrl != null
+                            ? Image.network('${imageUrl}')
+                            : Container(),
+                      ),
+
+                      SizedBox(
+                        height: 20,
+                      ),
+
                       InkWell(
                         onTap: () async {
                           //
@@ -227,11 +238,14 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                           XFile? file = await imagePicker.pickImage(
                               source: ImageSource.camera);
 
+                          print('${file?.path}');
+
+                          if (file == null) return;
+
                           String uniqueFileName =
                               DateTime.now().millisecondsSinceEpoch.toString();
 
-                          print('${file?.path}');
-
+                          // Get a reference to storage root
                           Reference referenceRoot =
                               FirebaseStorage.instance.ref();
 
@@ -239,11 +253,20 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                               referenceRoot.child('images');
 
                           // create a reference
-
                           Reference referenceImageToUpload =
                               referenceDirImage.child(uniqueFileName);
 
-                          // Store
+                          // Handle error/success
+                          try {
+                            // Store the file
+                            await referenceImageToUpload.putFile(
+                              File(file.path),
+                            );
+
+                            // success message
+                            imageUrl =
+                                await referenceImageToUpload.getDownloadURL();
+                          } catch (e) {}
                         },
                         child: Container(
                           width: 300,
@@ -272,11 +295,11 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                             // Save matakuliah Controller
                             if (formkey.currentState!.validate()) {
                               DokumentasiModel dk = DokumentasiModel(
-                                  namaAsisten: namaAsisten!,
                                   namaMatkul: slectedClient!,
                                   tanggal: _tanggal.text,
                                   jam: _jam.text,
-                                  uid: user!.uid);
+                                  uid: user!.uid,
+                                  image: imageUrl);
                               dkctr.addDokumentasi(dk);
 
                               //successful
