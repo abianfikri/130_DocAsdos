@@ -32,42 +32,13 @@ class _MatakuliahPageState extends State<MatakuliahPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue.shade800,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(15),
-                    height: 85,
-                    child: FloatingActionButton(
-                      child: Icon(Icons.arrow_back),
-                      backgroundColor: Colors.deepOrange,
-                      onPressed: () async {
-                        autctr.getCurrentUser();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeAdmin(),
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                'Matakuliah List',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            SizedBox(
+              height: 10,
             ),
             Expanded(
               child: StreamBuilder<List<DocumentSnapshot>>(
@@ -84,6 +55,41 @@ class _MatakuliahPageState extends State<MatakuliahPage> {
                   return ListView.builder(
                     itemCount: data.length,
                     itemBuilder: (context, index) {
+                      Color avatarColor;
+
+                      // Menentukan warna lingkaran avatar berdasarkan semester
+                      switch (data[index]['semester']) {
+                        case '1':
+                          avatarColor = Colors.blue;
+                          break;
+                        case '2':
+                          avatarColor = Colors.deepOrange;
+                          break;
+                        case '3':
+                          avatarColor = Colors.green;
+                          break;
+                        case '4':
+                          avatarColor = Colors.pink;
+                          break;
+                        case '5':
+                          avatarColor = Colors.indigo;
+                          break;
+                        case '6':
+                          avatarColor = Colors.orangeAccent;
+                          break;
+                        case '7':
+                          avatarColor = Colors.teal;
+                          break;
+                        case '8':
+                          avatarColor = Colors.red;
+                          break;
+                        case '9':
+                          avatarColor = Colors.amber;
+                          break;
+                        default:
+                          avatarColor = Colors.grey;
+                      }
+
                       return Padding(
                         padding: EdgeInsets.all(8.0),
                         child: InkWell(
@@ -108,9 +114,12 @@ class _MatakuliahPageState extends State<MatakuliahPage> {
                             elevation: 10,
                             child: ListTile(
                               leading: CircleAvatar(
-                                backgroundColor: Colors.black,
+                                backgroundColor: avatarColor,
                               ),
-                              title: Text(data[index]['namaMatkul']),
+                              title: Text(
+                                data[index]['namaMatkul'],
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               subtitle:
                                   Text('Semester ' + data[index]['semester']),
                               trailing: IconButton(
