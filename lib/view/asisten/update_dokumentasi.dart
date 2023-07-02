@@ -51,13 +51,10 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
   TextEditingController _newtanggal = new TextEditingController();
   TextEditingController _newJam = new TextEditingController();
 
-  String? slectedClient = "0";
-
   @override
   void initState() {
     _newJam.text = widget.beforeJam ?? '';
     _newtanggal.text = widget.beforeTanggal ?? '';
-    namaMatkul = widget.beforeMatkul ?? '';
     super.initState();
   }
 
@@ -70,71 +67,63 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
         child: SafeArea(
           child: Column(
             children: <Widget>[
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      // Back to Home
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeAsisten(),
-                        ),
-                      );
-                    },
-                    icon: Icon(Icons.arrow_back),
-                    iconSize: 40,
-                  ),
-                ],
-              ),
-              // Heading Dokumentasi
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Update Dokumentasi",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              Container(
+                height: 60,
+                decoration: BoxDecoration(color: Colors.blue.shade800),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        // Back to Home
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeAsisten(),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.arrow_back),
+                      iconSize: 40,
                     ),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  )
-                ],
+                    SizedBox(
+                      width: 58,
+                    ),
+                    Text(
+                      "Update Dokumentasi",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-
-              Text(widget.beforeMatkul!),
 
               // Form Add Data
               Form(
                 key: formkey,
                 child: Container(
+                  height: 676,
                   decoration: BoxDecoration(
                     color: Colors.white,
                   ),
                   padding: EdgeInsets.all(26),
                   child: Column(
                     children: [
-                      // Nama Asisten
-                      Container(
-                        width: 350,
-                        child: TextFormField(
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                            labelText: 'Nama',
-                            hintText: 'Enter your Name',
-                            prefixIcon: Icon(Icons.person_add),
-                          ),
-                          onSaved: (value) {
-                            namaAsisten = value;
-                          },
-                          initialValue: widget.beforeAsisten,
+                      SizedBox(
+                        height: 20,
+                      ),
+                      // Nama Matkul yang mau di update
+                      Text(
+                        widget.beforeMatkul!,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
 
                       SizedBox(
-                        height: 20,
+                        height: 60,
                       ),
 
                       // Tanggal
@@ -173,7 +162,7 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                       ),
 
                       SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
 
                       // Jam
@@ -207,59 +196,9 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                         ),
                       ),
 
-                      SizedBox(
-                        height: 30,
-                      ),
-
-                      // Nama Matakuliah
-                      StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('matkuls')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return CircularProgressIndicator();
-                          }
-
-                          List<DropdownMenuItem> matkulItems = [];
-
-                          final datas = snapshot.data!.docs.reversed.toList();
-                          matkulItems.add(
-                            DropdownMenuItem(
-                              value: "0",
-                              child: Text("Select Matkul"),
-                            ),
-                          );
-
-                          for (var client in datas) {
-                            matkulItems.add(
-                              DropdownMenuItem(
-                                value: client['namaMatkul'],
-                                child: Text(
-                                  client['namaMatkul'],
-                                ),
-                              ),
-                            );
-                          }
-
-                          return DropdownButton(
-                            items: matkulItems,
-                            onChanged: (value) {
-                              namaMatkul = value;
-                              setState(() {
-                                slectedClient = value;
-                              });
-                              print(value);
-                            },
-                            isExpanded: true,
-                            value: slectedClient,
-                          );
-                        },
-                      ),
-
                       // Button Submit
                       SizedBox(
-                        height: 50,
+                        height: 70,
                       ),
                       Container(
                         padding: EdgeInsets.all(20),
@@ -270,8 +209,7 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                               formkey.currentState!.save();
                               DokumentasiModel dk = DokumentasiModel(
                                   id: widget.id,
-                                  namaAsisten: namaAsisten!,
-                                  namaMatkul: slectedClient!,
+                                  namaMatkul: widget.beforeMatkul!,
                                   tanggal: _newformattanggal!,
                                   jam: _newformatjam!,
                                   uid: widget.uid);
