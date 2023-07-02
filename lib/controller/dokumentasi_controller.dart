@@ -23,11 +23,11 @@ class DokumentasiController {
 
     final DokumentasiModel dokumentasiModel = DokumentasiModel(
         id: docId,
-        namaAsisten: dkModel.namaAsisten,
         namaMatkul: dkModel.namaMatkul,
         tanggal: dkModel.tanggal,
         jam: dkModel.jam,
-        uid: dkModel.uid);
+        uid: dkModel.uid,
+        image: dkModel.image);
 
     await docref.update(dokumentasiModel.toMap());
   }
@@ -44,7 +44,6 @@ class DokumentasiController {
     final DokumentasiModel updateDok = DokumentasiModel(
         id: dokumentasiModel.id,
         namaMatkul: dokumentasiModel.namaMatkul,
-        namaAsisten: dokumentasiModel.namaAsisten,
         jam: dokumentasiModel.jam,
         tanggal: dokumentasiModel.tanggal,
         uid: dokumentasiModel.uid);
