@@ -18,23 +18,26 @@ class HomeAsisten extends StatefulWidget {
 }
 
 class _HomeAsistenState extends State<HomeAsisten> {
-  var mkctr = DokumentasiController();
+  var dkctr = DokumentasiController();
   final autctr = AuthController();
 
   final user = FirebaseAuth.instance.currentUser!;
+
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    mkctr.getDokumentasi();
+    dkctr.getDokumentasi();
     autctr.getCurrentUser();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade800,
+      backgroundColor: Colors.blue.shade900,
       body: SafeArea(
         child: Column(
           children: [
@@ -58,14 +61,27 @@ class _HomeAsistenState extends State<HomeAsisten> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              user.email!,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            // Username
+                            FutureBuilder<DocumentSnapshot>(
+                              future: userCollection.doc(user.uid).get(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return CircularProgressIndicator();
+                                }
+
+                                final username = snapshot.data?['username'];
+
+                                return Text(
+                                  'Hello, ' + username.toString().toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              },
                             ),
+                            // Asisten Text
                             Text(
                               "Asisten",
                               style: TextStyle(
@@ -126,7 +142,7 @@ class _HomeAsistenState extends State<HomeAsisten> {
                   ),
                 ),
                 child: StreamBuilder<List<DocumentSnapshot>>(
-                  stream: mkctr.stream,
+                  stream: dkctr.stream,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(
@@ -145,6 +161,7 @@ class _HomeAsistenState extends State<HomeAsisten> {
                             child: InkWell(
                               onLongPress: () {
                                 // Update Data
+
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -165,16 +182,61 @@ class _HomeAsistenState extends State<HomeAsisten> {
                               child: Card(
                                 elevation: 15,
                                 child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.black,
+                                  leading: Container(
+                                    child: data[index]['image'] != null
+                                        ? Image.network(
+                                            '${data[index]['image'].toString()}')
+                                        : Container(
+                                            child: CircleAvatar(
+                                            backgroundColor: Colors.black,
+                                          )),
                                   ),
                                   title: Text(data[index]['namaMatkul']),
-                                  subtitle:
-                                      Text('Tanggal ' + data[index]['tanggal']),
+                                  subtitle: Text(data[index]['tanggal']),
                                   trailing: IconButton(
                                     icon: Icon(Icons.delete),
                                     onPressed: () {
                                       // Delete
+                                      var aa = dkctr.deleteDokumentasi(
+                                          data[index]['id'].toString());
+                                      if (dkctr.deleteDokumentasi(
+                                              data[index]['id'].toString()) !=
+                                          null) {
+                                        dkctr
+                                            .deleteDokumentasi(
+                                                data[index]['id'].toString())
+                                            .then(
+                                          (value) {
+                                            setState(() {
+                                              dkctr.getDokumentasi();
+                                            });
+                                          },
+                                        );
+                                        Future.delayed(Duration(seconds: 2))
+                                            .then(
+                                          (value) =>
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                            const SnackBar(
+                                              content:
+                                                  Text('Dokumentasi Deleted'),
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        //  Failed
+                                        Future.delayed(Duration(seconds: 2))
+                                            .then(
+                                          (value) =>
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  'Dokumentasi Failed to Delete'),
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     },
                                   ),
                                 ),
@@ -182,20 +244,13 @@ class _HomeAsistenState extends State<HomeAsisten> {
                             ),
                           );
                         }
-                        return Column(
-                          children: [
-                            SizedBox(
-                              height: 200,
-                            ),
-                            Text("Data Masih Kosong"),
-                          ],
-                        );
+                        return Container();
                       },
                     );
                   },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
