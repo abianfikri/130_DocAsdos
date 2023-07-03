@@ -11,7 +11,7 @@ class MatakuliahController {
 
   Stream<List<DocumentSnapshot>> get stream => streamController.stream;
 
-  Future addContact(MatakuliahModel mkModel) async {
+  Future addMatkul(MatakuliahModel mkModel) async {
     final matkul = mkModel.toMap();
 
     final DocumentReference docref = await matakuliahCollection.add(matkul);
@@ -25,6 +25,7 @@ class MatakuliahController {
         semester: mkModel.semester);
 
     await docref.update(matkulModel.toMap());
+    await getMatkul();
   }
 
   Future getMatkul() async {
