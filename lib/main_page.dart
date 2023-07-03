@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/controller/auth_controller.dart';
 import 'package:final_exam_project/main.dart';
 import 'package:final_exam_project/view/admin/dokumentasi_page.dart';
-import 'package:final_exam_project/view/admin/home_admin.dart';
 import 'package:final_exam_project/view/admin/matakuliah_page.dart';
+import 'package:final_exam_project/view/admin/home_admin.dart';
 import 'package:final_exam_project/view/asisten/home_asisten.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -55,26 +55,6 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       currentIndex = index;
     });
-
-    if (index == 3) {
-      // Jika item "Logout" di tap
-      logout();
-    }
-  }
-
-  void logout() async {
-    await autctr.signOut();
-    setState(() {
-      isLoogedIn = false;
-      userRole = null;
-      SplashPage();
-    });
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => HalamanLogin()),
-      (route) => false,
-    );
   }
 
   @override
@@ -82,7 +62,7 @@ class _MainPageState extends State<MainPage> {
     if (isLoogedIn) {
       if (userRole == 'Admin') {
         return Scaffold(
-          appBar: currentIndex != 0 ? buildAppBar() : null,
+          appBar: currentIndex != 2 ? buildAppBar() : null,
           body: AnimatedSwitcher(
             duration: Duration(milliseconds: 300),
             child: _buildCurrentPage(),
@@ -90,14 +70,10 @@ class _MainPageState extends State<MainPage> {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentIndex,
             onTap: onTap,
-            backgroundColor: Colors.blue.shade900,
-            selectedItemColor: Colors.blue,
-            unselectedItemColor: Colors.grey,
+            backgroundColor: Colors.deepOrange.shade800,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.black,
             items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.book),
                 label: 'Matakuliah',
@@ -107,8 +83,8 @@ class _MainPageState extends State<MainPage> {
                 label: 'Dokumentasi',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.logout),
-                label: 'Logout',
+                icon: Icon(Icons.person),
+                label: 'Profile',
               ),
             ],
           ),
@@ -128,15 +104,15 @@ class _MainPageState extends State<MainPage> {
   AppBar buildAppBar() {
     String appBarTitle = '';
     if (currentIndex == 0) {
-      appBarTitle = 'Home';
-    } else if (currentIndex == 1) {
       appBarTitle = 'Matakuliah Page List';
+    } else if (currentIndex == 1) {
+      appBarTitle = 'Dokumentasi Page List';
     } else if (currentIndex == 2) {
       appBarTitle = 'Dokumentasi Page List';
     }
 
     return AppBar(
-      backgroundColor: Colors.blue.shade900,
+      backgroundColor: Colors.pink.shade700,
       centerTitle: true,
       automaticallyImplyLeading: false, // Menghilangkan ikon "leading"
       title: Text(appBarTitle),
@@ -147,11 +123,11 @@ class _MainPageState extends State<MainPage> {
   Widget _buildCurrentPage() {
     switch (currentIndex) {
       case 0:
-        return HomeAdmin();
-      case 1:
         return MatakuliahPage();
-      case 2:
+      case 1:
         return DokumentasiPage();
+      case 2:
+        return HomeAdmin();
       default:
         return Container();
     }
