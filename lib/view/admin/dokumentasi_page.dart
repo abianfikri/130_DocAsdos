@@ -26,105 +26,120 @@ class _DokumentasiPageState extends State<DokumentasiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade800,
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF8A2387),
+                Color(0xFFE94057),
+                Color(0xFFF27121),
+              ],
             ),
-            // List Matakuliah
-            Expanded(
-              child: StreamBuilder<List<DocumentSnapshot>>(
-                stream: mkctr.stream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+          ),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              // List Matakuliah
+              Expanded(
+                child: StreamBuilder<List<DocumentSnapshot>>(
+                  stream: mkctr.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
 
-                  final List<DocumentSnapshot> data = snapshot.data!;
+                    final List<DocumentSnapshot> data = snapshot.data!;
 
-                  return ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      // List data
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            // Pindah Halaman List Dokumentasi
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ListDokumentasi(
-                                  listNamaMatkul:
-                                      data[index]['namaMatkul'].toString(),
-                                ),
-                              ),
-                            );
-                          },
-                          // Pembungkus Card
-                          child: Container(
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // Nama Matakuliah
-                                    Text(
-                                      data[index]['namaMatkul'],
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    // Semester
-                                    Text(
-                                      "Semester " + data[index]['semester'],
-                                      style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(9.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      // Pindah Halaman
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ListDokumentasi(
-                                            listNamaMatkul: data[index]
-                                                    ['namaMatkul']
-                                                .toString(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Icon(Icons.arrow_forward_ios),
+                    return ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        // List data
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () {
+                              // Pindah Halaman List Dokumentasi
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ListDokumentasi(
+                                    listNamaMatkul:
+                                        data[index]['namaMatkul'].toString(),
                                   ),
-                                )
-                              ],
+                                ),
+                              );
+                            },
+                            // Pembungkus Card
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Nama Matakuliah
+                                      Text(
+                                        data[index]['namaMatkul'],
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      // Semester
+                                      Text(
+                                        "Semester " + data[index]['semester'],
+                                        style: TextStyle(
+                                          color: Colors.grey.shade500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(9.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        // Pindah Halaman
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ListDokumentasi(
+                                              listNamaMatkul: data[index]
+                                                      ['namaMatkul']
+                                                  .toString(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Icon(Icons.arrow_forward_ios),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
