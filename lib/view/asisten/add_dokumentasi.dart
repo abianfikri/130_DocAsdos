@@ -24,7 +24,6 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
   final dkctr = DokumentasiController();
   final mkctr = MatakuliahController();
 
-  String? namaAsisten;
   String? namaMatkul;
   String? imageUrl;
   TextEditingController _tanggal = new TextEditingController();
@@ -85,22 +84,6 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                   padding: EdgeInsets.all(26),
                   child: Column(
                     children: [
-                      // Nama Asisten
-                      Container(
-                        width: 350,
-                        child: TextField(
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                            labelText: 'Nama',
-                            hintText: 'Enter your Name',
-                            prefixIcon: Icon(Icons.person_add),
-                          ),
-                          onChanged: (value) {
-                            namaAsisten = value;
-                          },
-                        ),
-                      ),
-
                       SizedBox(
                         height: 20,
                       ),
@@ -266,6 +249,10 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                             // success message
                             imageUrl =
                                 await referenceImageToUpload.getDownloadURL();
+
+                            setState(() {
+                              imageUrl!;
+                            });
                           } catch (e) {}
                         },
                         child: Container(
