@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/controller/auth_controller.dart';
-import 'package:final_exam_project/main.dart';
 import 'package:final_exam_project/view/admin/dokumentasi_page.dart';
 import 'package:final_exam_project/view/admin/matakuliah_page.dart';
 import 'package:final_exam_project/view/admin/home_admin.dart';
+import 'package:final_exam_project/view/asisten/dokumentasi_asisten.dart';
 import 'package:final_exam_project/view/asisten/home_asisten.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -90,7 +88,30 @@ class _MainPageState extends State<MainPage> {
           ),
         );
       } else if (userRole == 'Asisten') {
-        return HomeAsisten();
+        return Scaffold(
+          appBar: currentIndex != 1 ? buildAppBar() : null,
+          body: AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            child: _buildCurrentPage(),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: onTap,
+            backgroundColor: Colors.deepOrange.shade800,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.black,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.description),
+                label: 'Dokumentasi',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+          ),
+        );
       } else {
         // Jika peran pengguna tidak dikenali, arahkan ke halaman login
         return HalamanLogin();
@@ -103,11 +124,11 @@ class _MainPageState extends State<MainPage> {
   // App bar Admin
   AppBar buildAppBar() {
     String appBarTitle = '';
-    if (currentIndex == 0) {
+    if (currentIndex == 0 && userRole == 'Admin') {
       appBarTitle = 'Matakuliah Page List';
+    } else if (currentIndex == 0 && userRole == 'Asisten') {
+      appBarTitle = 'Dokumentasi Page Asisten';
     } else if (currentIndex == 1) {
-      appBarTitle = 'Dokumentasi Page List';
-    } else if (currentIndex == 2) {
       appBarTitle = 'Dokumentasi Page List';
     }
 
@@ -123,9 +144,19 @@ class _MainPageState extends State<MainPage> {
   Widget _buildCurrentPage() {
     switch (currentIndex) {
       case 0:
-        return MatakuliahPage();
+        if (userRole == 'Admin') {
+          return MatakuliahPage();
+        } else if (userRole == 'Asisten') {
+          return DokumentasiAsisten();
+        }
+        return Container();
       case 1:
-        return DokumentasiPage();
+        if (userRole == 'Admin') {
+          return DokumentasiPage();
+        } else if (userRole == 'Asisten') {
+          return HomeAsisten();
+        }
+        return Container();
       case 2:
         return HomeAdmin();
       default:
