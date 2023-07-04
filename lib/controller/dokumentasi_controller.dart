@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/model/dokumentasi_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class DokumentasiController {
   final dokumentasiCollection =
@@ -30,6 +29,7 @@ class DokumentasiController {
         image: dkModel.image);
 
     await docref.update(dokumentasiModel.toMap());
+    await getDokumentasi();
   }
 
   // Get All Dokumentasi
@@ -46,6 +46,7 @@ class DokumentasiController {
         namaMatkul: dokumentasiModel.namaMatkul,
         jam: dokumentasiModel.jam,
         tanggal: dokumentasiModel.tanggal,
+        image: dokumentasiModel.image,
         uid: dokumentasiModel.uid);
 
     await dokumentasiCollection
