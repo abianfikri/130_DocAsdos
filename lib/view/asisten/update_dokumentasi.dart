@@ -1,32 +1,32 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+
+import 'package:final_exam_project/component/gradiant_text.dart';
 import 'package:final_exam_project/controller/dokumentasi_controller.dart';
 import 'package:final_exam_project/controller/matakuliah_controller.dart';
 import 'package:final_exam_project/model/dokumentasi_model.dart';
-import 'package:final_exam_project/view/asisten/add_dokumentasi.dart';
-import 'package:final_exam_project/view/asisten/home_asisten.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class UpdateDokumentasi extends StatefulWidget {
   const UpdateDokumentasi(
       {super.key,
       this.id,
-      this.beforeAsisten,
       this.beforeMatkul,
       this.beforeTanggal,
       this.beforeJam,
-      this.uid});
+      this.uid,
+      this.beforeImage});
 
   // Deklarasi untuk mengambil data sebelumnya
   final String? id;
   final String? uid;
-  final String? beforeAsisten;
   final String? beforeMatkul;
   final String? beforeTanggal;
   final String? beforeJam;
+  final String? beforeImage;
 
   @override
   State<UpdateDokumentasi> createState() => _UpdateDokumentasiState();
@@ -46,6 +46,7 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
   String? namaMatkul;
   String? _newformattanggal;
   String? _newformatjam;
+  String? newImageUrl;
 
   // Deklarasi variable Controller
   TextEditingController _newtanggal = new TextEditingController();
@@ -55,80 +56,79 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
   void initState() {
     _newJam.text = widget.beforeJam ?? '';
     _newtanggal.text = widget.beforeTanggal ?? '';
+    newImageUrl = widget.beforeImage ?? '';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //
-      backgroundColor: Colors.blue.shade800,
+      appBar: AppBar(
+        title: Text('Update Matakuliah'),
+        centerTitle: true,
+        backgroundColor: Colors.pink.shade900,
+      ),
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 60,
-                decoration: BoxDecoration(color: Colors.blue.shade800),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        // Back to Home
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeAsisten(),
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.arrow_back),
-                      iconSize: 40,
-                    ),
-                    SizedBox(
-                      width: 58,
-                    ),
-                    Text(
-                      "Update Dokumentasi",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+        child: Form(
+          key: formkey,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF8A2387),
+                  Color(0xFFE94057),
+                  Color(0xFFF27121),
+                ],
               ),
-
-              // Form Add Data
-              Form(
-                key: formkey,
-                child: Container(
-                  height: 676,
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  height: 530,
+                  width: 370,
                   decoration: BoxDecoration(
                     color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: EdgeInsets.all(26),
                   child: Column(
                     children: [
                       SizedBox(
                         height: 20,
                       ),
                       // Nama Matkul yang mau di update
-                      Text(
-                        widget.beforeMatkul!,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GradientText(
+                          widget.beforeMatkul!,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.blue,
+                              Colors.red,
+                              Colors.black,
+                            ],
+                          ),
                         ),
                       ),
 
                       SizedBox(
-                        height: 60,
+                        height: 30,
                       ),
 
                       // Tanggal
                       Container(
-                        width: 350,
+                        padding: EdgeInsets.all(8.0),
+                        width: 300,
                         child: TextFormField(
                           controller: _newtanggal,
                           decoration: InputDecoration(
@@ -158,16 +158,18 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                           onSaved: (newValue) {
                             _newformattanggal = newValue!;
                           },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter Tanggal';
+                            }
+                          },
                         ),
-                      ),
-
-                      SizedBox(
-                        height: 40,
                       ),
 
                       // Jam
                       Container(
-                        width: 350,
+                        padding: EdgeInsets.all(8.0),
+                        width: 300,
                         child: TextFormField(
                           controller: _newJam,
                           keyboardType: TextInputType.name,
@@ -193,13 +195,79 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                           onSaved: (newValue) {
                             _newformatjam = newValue!;
                           },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter Jam';
+                            }
+                          },
                         ),
                       ),
 
-                      // Button Submit
-                      SizedBox(
-                        height: 70,
+                      // Display Image
+                      Container(
+                        padding: EdgeInsets.all(5.0),
+                        height: 80,
+                        width: 60,
+                        child: newImageUrl != null
+                            ? Image.network('${newImageUrl}')
+                            : Container(),
                       ),
+
+                      // Button Upload Gambar
+                      InkWell(
+                        onTap: () async {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Upload Gambar'),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                      GestureDetector(
+                                        child: Text('Camera'),
+                                        onTap: () {
+                                          _uploadImage(ImageSource.camera);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      SizedBox(height: 10),
+                                      GestureDetector(
+                                        child: Text('Gallery'),
+                                        onTap: () {
+                                          _uploadImage(ImageSource.gallery);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          width: 160,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Upload Foto",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      // Button Submit
                       Container(
                         padding: EdgeInsets.all(20),
                         child: InkWell(
@@ -208,27 +276,28 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                             if (formkey.currentState!.validate()) {
                               formkey.currentState!.save();
                               DokumentasiModel dk = DokumentasiModel(
-                                  id: widget.id,
-                                  namaMatkul: widget.beforeMatkul!,
-                                  tanggal: _newformattanggal!,
-                                  jam: _newformatjam!,
-                                  uid: widget.uid);
+                                id: widget.id,
+                                uid: widget.uid,
+                                namaMatkul: widget.beforeMatkul!,
+                                tanggal: _newformattanggal!,
+                                jam: _newformatjam!,
+                                image: newImageUrl,
+                              );
                               dkctr.updateDokumentasi(dk);
+
+                              Navigator.pop(context, true);
 
                               //successful
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Berhasil Update data'),
+                                    title: const Text(
+                                        'Berhasil Update Dokumentasi'),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeAsisten()));
+                                          Navigator.pop(context, true);
                                           // Navigate to the next screen or perform any desired action
                                         },
                                         child: const Text('OK'),
@@ -243,15 +312,12 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Gagal Update Data'),
+                                    title:
+                                        const Text('Gagal Update Dokumentasi'),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeAsisten()));
+                                          Navigator.pop(context);
                                           // Navigate to the next screen or perform any desired action
                                         },
                                         child: const Text('OK'),
@@ -266,7 +332,15 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                             width: 300,
                             height: 50,
                             decoration: BoxDecoration(
-                                color: Colors.deepOrange,
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    Color(0xFF8A2387),
+                                    Color(0xFFE94057),
+                                    Color(0xFFF27121),
+                                  ],
+                                ),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Center(
                               child: Text(
@@ -283,11 +357,46 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  // Method Upload
+  Future<void> _uploadImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: source);
+
+    if (pickedImage != null) {
+      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+      // Get a reference to storage root
+      Reference referenceRoot = FirebaseStorage.instance.ref();
+      Reference referenceDirImage = referenceRoot.child('images');
+
+      // create a reference
+      Reference referenceImageToUpload =
+          referenceDirImage.child(uniqueFileName);
+
+      // Handle error/success
+      try {
+        // Store the file
+        await referenceImageToUpload.putFile(
+          File(pickedImage.path),
+        );
+
+        // success message
+        final imageUrl = await referenceImageToUpload.getDownloadURL();
+
+        setState(() {
+          newImageUrl = imageUrl;
+        });
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 }
