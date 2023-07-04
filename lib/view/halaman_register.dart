@@ -3,8 +3,6 @@ import 'package:final_exam_project/controller/auth_controller.dart';
 import 'package:final_exam_project/model/user_model.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class HalamanRegister extends StatefulWidget {
   const HalamanRegister({super.key});

@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_exam_project/controller/auth_controller.dart';
 import 'package:final_exam_project/controller/dokumentasi_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ListDokumentasi extends StatefulWidget {
   const ListDokumentasi({super.key, this.listNamaMatkul});
@@ -16,7 +13,6 @@ class ListDokumentasi extends StatefulWidget {
 class _ListDokumentasiState extends State<ListDokumentasi> {
   // Deklarasi Variable
   final dkCtr = DokumentasiController(); // Dokumentasi Controller
-  final autCtr = AuthController(); // Auth Controller
 
   Future<String?> getUsername(String uid) async {
     DocumentSnapshot userSnapshot =

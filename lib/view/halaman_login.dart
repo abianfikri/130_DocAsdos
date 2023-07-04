@@ -2,12 +2,8 @@ import 'package:final_exam_project/component/gradiant_text.dart';
 import 'package:final_exam_project/controller/auth_controller.dart';
 import 'package:final_exam_project/main_page.dart';
 import 'package:final_exam_project/model/user_model.dart';
-import 'package:final_exam_project/view/asisten/home_asisten.dart';
 import 'package:final_exam_project/view/halaman_register.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class HalamanLogin extends StatefulWidget {
   const HalamanLogin({super.key});

@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/controller/auth_controller.dart';
 import 'package:final_exam_project/controller/matakuliah_controller.dart';
-import 'package:final_exam_project/model/user_model.dart';
 import 'package:final_exam_project/view/admin/add_matakuliah.dart';
 import 'package:final_exam_project/view/admin/update_matakuliah.dart';
-import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class MatakuliahPage extends StatefulWidget {
   const MatakuliahPage({super.key});
@@ -141,7 +137,10 @@ class _MatakuliahPageState extends State<MatakuliahPage> {
                                 subtitle:
                                     Text('Semester ' + data[index]['semester']),
                                 trailing: IconButton(
-                                  icon: Icon(Icons.delete),
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
                                   onPressed: () {
                                     // Delete
                                     var aa = mkctr.deleteMatkul(

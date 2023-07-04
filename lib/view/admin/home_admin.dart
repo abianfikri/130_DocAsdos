@@ -1,13 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/component/gradiant_text.dart';
 import 'package:final_exam_project/controller/auth_controller.dart';
-import 'package:final_exam_project/view/admin/dokumentasi_page.dart';
-import 'package:final_exam_project/view/admin/matakuliah_page.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class HomeAdmin extends StatelessWidget {
   const HomeAdmin({super.key});
