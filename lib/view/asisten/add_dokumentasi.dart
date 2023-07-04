@@ -1,14 +1,12 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_exam_project/component/gradiant_text.dart';
 import 'package:final_exam_project/controller/dokumentasi_controller.dart';
 import 'package:final_exam_project/controller/matakuliah_controller.dart';
 import 'package:final_exam_project/model/dokumentasi_model.dart';
-import 'package:final_exam_project/view/asisten/home_asisten.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -36,67 +34,67 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900,
+      appBar: AppBar(
+        title: Text('Add Matakuliah'),
+        centerTitle: true,
+        backgroundColor: Colors.pink.shade900,
+      ),
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 60,
-                decoration: BoxDecoration(color: Colors.blue.shade800),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        // Back to Home
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeAsisten(),
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.arrow_back),
-                      iconSize: 40,
-                    ),
-                    SizedBox(
-                      width: 70,
-                    ),
-                    Text(
-                      "Add Dokumentasi",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+        child: Form(
+          key: formkey,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF8A2387),
+                  Color(0xFFE94057),
+                  Color(0xFFF27121),
+                ],
               ),
-
-              // Form Add Data
-              Form(
-                key: formkey,
-                child: Container(
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 580,
+                  width: 360,
                   decoration: BoxDecoration(
                     color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  height: 675,
-                  padding: EdgeInsets.all(26),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 20,
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: GradientText(
+                          'Dokumentasi',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.blue,
+                              Colors.red,
+                              Colors.black,
+                            ],
+                          ),
+                        ),
                       ),
-
                       // Tanggal
                       Container(
-                        width: 350,
-                        child: TextField(
+                        padding: EdgeInsets.all(5.0),
+                        width: 300,
+                        child: TextFormField(
                           controller: _tanggal,
                           decoration: InputDecoration(
                             labelText: 'Tanggal',
                             hintText: 'Enter your date',
-                            prefixIcon: Icon(Icons.calendar_today_rounded),
+                            suffixIcon: Icon(Icons.calendar_today_rounded),
                           ),
                           readOnly: true,
                           onTap: () async {
@@ -115,23 +113,25 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                               });
                             }
                           },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Tanggal';
+                            }
+                          },
                         ),
-                      ),
-
-                      SizedBox(
-                        height: 20,
                       ),
 
                       // Jam
                       Container(
-                        width: 350,
+                        padding: EdgeInsets.all(5.0),
+                        width: 300,
                         child: TextFormField(
                           keyboardType: TextInputType.name,
                           controller: _jam,
                           readOnly: true,
                           decoration: InputDecoration(
                             labelText: 'Jam',
-                            prefixIcon: Icon(
+                            suffixIcon: Icon(
                               Icons.timer,
                             ),
                           ),
@@ -143,11 +143,12 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                               _jam.text = time.format(context);
                             }
                           },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please Enter Jam';
+                            }
+                          },
                         ),
-                      ),
-
-                      SizedBox(
-                        height: 30,
                       ),
 
                       // Nama Matakuliah
@@ -181,84 +182,84 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                             );
                           }
 
-                          return DropdownButton(
-                            items: matkulItems,
-                            onChanged: (value) {
-                              namaMatkul = value;
-                              setState(() {
-                                slectedClient = value;
-                              });
-                              print(value);
-                            },
-                            isExpanded: true,
-                            value: slectedClient,
+                          return Container(
+                            padding: EdgeInsets.all(5.0),
+                            width: 300,
+                            child: DropdownButtonFormField(
+                              items: matkulItems,
+                              onChanged: (value) {
+                                setState(() {
+                                  namaMatkul = value;
+                                  slectedClient = value;
+                                });
+                                print(value);
+                              },
+                              validator: (value) {
+                                if (value!.isEmpty || value == '0') {
+                                  return 'Please Select Matkul';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Nama Matakuliah',
+                              ),
+                              isExpanded: true,
+                              value: slectedClient,
+                            ),
                           );
                         },
                       ),
 
-                      // Button Upload Gambar
-                      SizedBox(
-                        height: 20,
-                      ),
-
+                      // Display Image
                       Container(
+                        padding: EdgeInsets.all(5.0),
                         height: 80,
                         width: 60,
-                        decoration: BoxDecoration(color: Colors.amber),
                         child: imageUrl != null
                             ? Image.network('${imageUrl}')
                             : Container(),
                       ),
 
-                      SizedBox(
-                        height: 20,
-                      ),
-
+                      // Button Upload Gambar
                       InkWell(
                         onTap: () async {
-                          //
-                          ImagePicker imagePicker = ImagePicker();
-                          XFile? file = await imagePicker.pickImage(
-                              source: ImageSource.camera);
-
-                          print('${file?.path}');
-
-                          if (file == null) return;
-
-                          String uniqueFileName =
-                              DateTime.now().millisecondsSinceEpoch.toString();
-
-                          // Get a reference to storage root
-                          Reference referenceRoot =
-                              FirebaseStorage.instance.ref();
-
-                          Reference referenceDirImage =
-                              referenceRoot.child('images');
-
-                          // create a reference
-                          Reference referenceImageToUpload =
-                              referenceDirImage.child(uniqueFileName);
-
-                          // Handle error/success
-                          try {
-                            // Store the file
-                            await referenceImageToUpload.putFile(
-                              File(file.path),
-                            );
-
-                            // success message
-                            imageUrl =
-                                await referenceImageToUpload.getDownloadURL();
-
-                            setState(() {
-                              imageUrl!;
-                            });
-                          } catch (e) {}
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Upload Gambar'),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                      GestureDetector(
+                                        child: Text('Camera'),
+                                        onTap: () {
+                                          _uploadImage(ImageSource.camera);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      SizedBox(height: 10),
+                                      GestureDetector(
+                                        child: Text('Gallery'),
+                                        onTap: () {
+                                          _uploadImage(ImageSource.gallery);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Container(
-                          width: 300,
-                          height: 35,
-                          decoration: BoxDecoration(color: Colors.blue),
+                          padding: EdgeInsets.all(8.0),
+                          width: 160,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           child: Center(
                             child: Text(
                               "Upload Foto",
@@ -271,12 +272,13 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                         ),
                       ),
 
-                      // Button Submit
                       SizedBox(
-                        height: 50,
+                        height: 5,
                       ),
+
+                      // Button submit save
                       Container(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(17.0),
                         child: InkWell(
                           onTap: () async {
                             // Save matakuliah Controller
@@ -289,6 +291,8 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                                   image: imageUrl);
                               dkctr.addDokumentasi(dk);
 
+                              Navigator.pop(context, true);
+
                               //successful
                               showDialog(
                                 context: context,
@@ -299,11 +303,7 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeAsisten()));
+                                          Navigator.pop(context, true);
                                           // Navigate to the next screen or perform any desired action
                                         },
                                         child: const Text('OK'),
@@ -322,11 +322,7 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AddDokumentasi()));
+                                          Navigator.pop(context);
                                           // Navigate to the next screen or perform any desired action
                                         },
                                         child: const Text('OK'),
@@ -338,10 +334,18 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                             }
                           },
                           child: Container(
-                            width: 300,
-                            height: 50,
+                            padding: EdgeInsets.all(15.0),
+                            width: 250,
                             decoration: BoxDecoration(
-                                color: Colors.deepOrange,
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    Color(0xFF8A2387),
+                                    Color(0xFFE94057),
+                                    Color(0xFFF27121),
+                                  ],
+                                ),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Center(
                               child: Text(
@@ -358,11 +362,46 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  // Method Upload
+  Future<void> _uploadImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: source);
+
+    if (pickedImage != null) {
+      String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+      // Get a reference to storage root
+      Reference referenceRoot = FirebaseStorage.instance.ref();
+      Reference referenceDirImage = referenceRoot.child('images');
+
+      // create a reference
+      Reference referenceImageToUpload =
+          referenceDirImage.child(uniqueFileName);
+
+      // Handle error/success
+      try {
+        // Store the file
+        await referenceImageToUpload.putFile(
+          File(pickedImage.path),
+        );
+
+        // success message
+        imageUrl = await referenceImageToUpload.getDownloadURL();
+
+        setState(() {
+          imageUrl!;
+        });
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 }
