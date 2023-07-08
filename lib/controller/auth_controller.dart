@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_exam_project/model/profile_model.dart';
 import 'package:final_exam_project/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -6,6 +7,8 @@ class AuthController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
+
+  final profileCollection = FirebaseFirestore.instance.collection('profile');
 
   bool get succes => false;
 
@@ -25,6 +28,17 @@ class AuthController {
             role: role);
 
         await userCollection.doc(newUser.uid).set(newUser.toMap());
+
+        final ProfileModel newProfile = ProfileModel(
+          uid: user.uid,
+          nama: '',
+          username: '',
+          nim: '',
+          semester: '',
+          matkul: [''],
+        );
+
+        await profileCollection.doc(user.uid).set(newProfile.toMap());
 
         return newUser;
       }
