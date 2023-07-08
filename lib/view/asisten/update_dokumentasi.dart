@@ -121,8 +121,13 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                         ),
                       ),
 
-                      SizedBox(
-                        height: 30,
+                      // Display Image
+                      Container(
+                        padding: EdgeInsets.all(5.0),
+                        width: 100,
+                        child: newImageUrl != null
+                            ? Image.network('${newImageUrl}')
+                            : Container(),
                       ),
 
                       // Tanggal
@@ -145,14 +150,16 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                               lastDate: DateTime(2101),
                             );
 
-                            _newformattanggal = DateFormat('EEEE, dd MMMM yyyy')
-                                .format(pickeddate!)
-                                .toString();
-
                             if (pickeddate != null) {
+                              _newformattanggal =
+                                  DateFormat('EEEE, dd MMMM yyyy')
+                                      .format(pickeddate)
+                                      .toString();
                               setState(() {
                                 _newtanggal.text = _newformattanggal!;
                               });
+                            } else {
+                              _newformattanggal = widget.beforeTanggal!;
                             }
                           },
                           onSaved: (newValue) {
@@ -203,14 +210,8 @@ class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
                         ),
                       ),
 
-                      // Display Image
-                      Container(
-                        padding: EdgeInsets.all(5.0),
-                        height: 80,
-                        width: 60,
-                        child: newImageUrl != null
-                            ? Image.network('${newImageUrl}')
-                            : Container(),
+                      SizedBox(
+                        height: 30,
                       ),
 
                       // Button Upload Gambar
