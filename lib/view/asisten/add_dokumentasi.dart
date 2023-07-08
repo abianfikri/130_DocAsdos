@@ -85,6 +85,13 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                           ),
                         ),
                       ),
+                      // Display Image
+                      Container(
+                        width: 90,
+                        child: imageUrl != null
+                            ? Image.network('${imageUrl}')
+                            : Container(),
+                      ),
                       // Tanggal
                       Container(
                         padding: EdgeInsets.all(5.0),
@@ -210,14 +217,8 @@ class _AddDokumentasiState extends State<AddDokumentasi> {
                         },
                       ),
 
-                      // Display Image
-                      Container(
-                        padding: EdgeInsets.all(5.0),
-                        height: 80,
-                        width: 60,
-                        child: imageUrl != null
-                            ? Image.network('${imageUrl}')
-                            : Container(),
+                      SizedBox(
+                        height: 30,
                       ),
 
                       // Button Upload Gambar
