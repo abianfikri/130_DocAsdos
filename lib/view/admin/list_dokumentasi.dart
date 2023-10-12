@@ -3,6 +3,9 @@ import 'package:final_exam_project/controller/dokumentasi_controller.dart';
 import 'package:final_exam_project/view/admin/detail_dokumentasi.dart';
 import 'package:flutter/material.dart';
 
+/// Class ListDokumentasi merupakan class yang menggunakan statefullwidget.
+/// class ini menampilkan informasi berupa list card dokumentasi yang dilakukan asisten sesuai dengan
+/// matakuliah yang diampunya.
 class ListDokumentasi extends StatefulWidget {
   const ListDokumentasi({super.key, this.listNamaMatkul});
   final String? listNamaMatkul;
@@ -11,8 +14,10 @@ class ListDokumentasi extends StatefulWidget {
   State<ListDokumentasi> createState() => _ListDokumentasiState();
 }
 
+/// Pada class ini akan memanggil fungsi DokumentasiController, get CurrentUsername dan lain sebagainya.
+/// berikut merupakan libary tampilan yang digunakan dalammembuat tampilann dan backend dari listDokumetansi
 class _ListDokumentasiState extends State<ListDokumentasi> {
-  // Deklarasi Variable
+  /// Deklarasi Variable
   final dkCtr = DokumentasiController(); // Dokumentasi Controller
 
   String? username;

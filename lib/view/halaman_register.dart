@@ -4,6 +4,7 @@ import 'package:final_exam_project/model/user_model.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:flutter/material.dart';
 
+/// Class ini digunakan untuk membuat tampilan register yang dibutuhkan oleh asisten sebelum mengakses Aplikasi DocAsdos
 class HalamanRegister extends StatefulWidget {
   const HalamanRegister({super.key});
 
@@ -11,6 +12,9 @@ class HalamanRegister extends StatefulWidget {
   State<HalamanRegister> createState() => _HalamanRegisterState();
 }
 
+/// Pada class ini memuat form Register berupa, username, email, dan password.
+/// fungsi yang dibutuhkan adalah class AuthController yang menyimpan funsgi untuk register Account menggunakan
+/// firebaseAuth
 class _HalamanRegisterState extends State<HalamanRegister> {
   final formkey = GlobalKey<FormState>();
   final authctr = AuthController();

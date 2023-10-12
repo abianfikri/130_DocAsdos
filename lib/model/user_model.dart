@@ -2,6 +2,10 @@ import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+/// Class userModel merupakan class yang menyimpan data-data yang dibutuhkan untuk proses login dan register.
+/// data tersebut akan disimpan di dalam collection users dengan bantun FirebaseAuth nantinya.
+/// Data yang disimpan berupa username, email, uid, dan role user. role user disini sangat berperan penting
+/// dalam mendeteksi role user mana yang sedang melakukan login.
 class UserModel {
   String username;
   String email;

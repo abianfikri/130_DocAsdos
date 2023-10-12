@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// Class AddDokumentasi merupakan class yang bertugas untuk create data yanng dibutuhkan dalam membuat dokumenatsi.
+/// data yang dibutuhkan berupa namaMatkul, gambarm, tanggal, jam, username, dan uid user yang login.
 class AddDokumentasi extends StatefulWidget {
   const AddDokumentasi({super.key});
 
@@ -17,6 +19,9 @@ class AddDokumentasi extends StatefulWidget {
   State<AddDokumentasi> createState() => _AddDokumentasiState();
 }
 
+/// Pada class ini akan menerapkan Firebase AuthController yang mana data uid user akan otomatis tersimpan kedalama
+/// collecion DOkumentasi. fungsi lain yang digunakan adalah Dokumentasi controller, matakuliah Controller, dan form
+/// Pada class ini ada tampilan untuk textformField, image, dan button upload and submit
 class _AddDokumentasiState extends State<AddDokumentasi> {
   final formkey = GlobalKey<FormState>();
   final dkctr = DokumentasiController();

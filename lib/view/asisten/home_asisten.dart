@@ -7,6 +7,9 @@ import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+/// class HomeAsisten merupakan class yang menampilkan halaman profile dari seorang asisten.
+/// didalam class ini akan memuat atau menampilkan detail informasi profile asisten,
+/// dan asisten dapat mengedit data profile nya kecuali data untuk melakukan login kedalam aplikasi.
 class HomeAsisten extends StatefulWidget {
   const HomeAsisten({super.key});
 
@@ -14,6 +17,8 @@ class HomeAsisten extends StatefulWidget {
   State<HomeAsisten> createState() => _HomeAsistenState();
 }
 
+/// ini adalah bagian dari pemanggilan variable dan funsgi yang dibutuhkan dalam membuat tampilan dan backend dari class ini
+/// pada backend nya dibutuhkan fungsi dari class AuthController, profileController dan FirebaseAuth.
 class _HomeAsistenState extends State<HomeAsisten> {
   final autctr = AuthController();
   final pfctr = ProfileController();

@@ -4,6 +4,8 @@ import 'package:final_exam_project/model/matakuliah_model.dart';
 import 'package:final_exam_project/view/admin/matakuliah_page.dart';
 import 'package:flutter/material.dart';
 
+/// Class UpdateMatakuliah untuk mengupdate data-data yang telah di create dan disimpan di dalam
+/// collection matkuls. data yang dapat diubah yaitu namadosen, nama matakuliah, dan semester,
 class UpdateMatakuliah extends StatefulWidget {
   const UpdateMatakuliah(
       {super.key,
@@ -20,6 +22,9 @@ class UpdateMatakuliah extends StatefulWidget {
   State<UpdateMatakuliah> createState() => _UpdateMatakuliahState();
 }
 
+/// ini adalah class untuk membuat tampilan dan backend.
+/// didalam class ini memanggil fungsi class pada matakuliaController dan GlobalKey untuk
+/// membuat form
 class _UpdateMatakuliahState extends State<UpdateMatakuliah> {
   final formkey = GlobalKey<FormState>();
   final mkctr = MatakuliahController();

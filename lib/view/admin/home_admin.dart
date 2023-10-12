@@ -5,6 +5,10 @@ import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+///  Class HomeAdmin adalah sebuah class untuk membuat tampilan profile dari admin
+/// pada class ini menggunakan statelesswidget.
+/// di class ini akan memuat beberapa informasi berupa nama username admin, role admin,
+/// email admin, dan juga button logout
 class HomeAdmin extends StatelessWidget {
   const HomeAdmin({super.key});
 

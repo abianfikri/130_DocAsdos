@@ -3,6 +3,10 @@ import 'package:final_exam_project/controller/matakuliah_controller.dart';
 import 'package:final_exam_project/view/admin/list_dokumentasi.dart';
 import 'package:flutter/material.dart';
 
+/// Class DokumentasiPage merupakan sebuah kelas yang menampilkan halaman dokumentasi matakuliah,
+/// pada halaman ini akan menampilkan nama-nama matakuliah yang diambil dari collection matkul
+/// dan dipanggil fungsi getMatkul yang ada matkulController. lalu ketika user mengklik button card nya
+/// maka user akan dibawa atau data nya akan di passing ke halamanan ListDokumentasi
 class DokumentasiPage extends StatefulWidget {
   const DokumentasiPage({super.key});
 
@@ -10,6 +14,8 @@ class DokumentasiPage extends StatefulWidget {
   State<DokumentasiPage> createState() => _DokumentasiPageState();
 }
 
+/// ini adalah class yang bertugas untuk membuat halaman Dokumentasi Page dan memanggil funsgi-fungsi yang telah di
+/// buat sebelumnya di dalam class Dokumenatsi Controller dan MatakuliahController
 class _DokumentasiPageState extends State<DokumentasiPage> {
   // Deklarasi Controller
   final mkctr = MatakuliahController();

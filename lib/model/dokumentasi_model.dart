@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+/// Class Dokumentasi Model digunakan untuk deklarasi data apa saja yang akan disimpan kedalam
+/// Collection Dokumentasi nantinya.
+/// Di dalam kelas ini akan disimpan data-data berupa id dengan tipe data String,
+/// namaMatkul(String), tanggal(String), jam(String), uid , dan image.
 class DokumentasiModel {
   String? id;
   final String namaMatkul;

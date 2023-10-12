@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+/// Class Profile Model untuk menyimpan data-data yang nantinya akan disimpan kedalam collection Profile.
+/// Data yang disimpan dapat berupa String dan List. Data yang disimpan meliputi,
+/// uid, nama user, username, nim, semester, array list nama Matkul
 class ProfileModel {
   String? uid;
   String? nama;

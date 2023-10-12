@@ -3,6 +3,8 @@ import 'package:final_exam_project/model/profile_model.dart';
 import 'package:final_exam_project/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+/// Class AuthController bertugas untuk Login dan Logout menggunakan FirebaseFirestore
+/// dan menyimpannya kedalam collection users dengan bantun FirebaseAuth
 class AuthController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final CollectionReference userCollection =
@@ -12,6 +14,7 @@ class AuthController {
 
   bool get succes => false;
 
+  /// Method register menggunakan email dan password dengan bantuan Firbase Auth
   Future<UserModel?> registeremailPassword(
       String email, String password, String username, String role) async {
     try {
@@ -47,6 +50,9 @@ class AuthController {
     }
   }
 
+  /// Method SignEmail dan password menggunakan firebase Auth
+  /// Dengan Parameter pengecekean email dan password serta role
+  /// yang disimpan di dalam collection users
   Future<UserModel?> signEmailandPassword(String email, String password) async {
     try {
       final UserCredential userCredential = await auth
@@ -72,6 +78,7 @@ class AuthController {
     return null;
   }
 
+  /// Mendapatkan informasi getCurrentUser
   UserModel? getCurrentUser() {
     final User? user = auth.currentUser;
     if (user != null) {
@@ -80,6 +87,7 @@ class AuthController {
     return null;
   }
 
+  /// Method untuk logout dari acccount FirebaseAuth
   Future<void> signOut() async {
     await auth.signOut();
   }

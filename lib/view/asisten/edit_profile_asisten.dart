@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+/// class editProfileAsisten merupakan class untuk mengedit data-data dari userAsisten
+/// data yang bisa diedit nanti nya akan disimpan kedalam collection profile yang telah di buat di
+/// profileController.
 class EditProfileAsisten extends StatefulWidget {
   const EditProfileAsisten(
       {super.key,
@@ -25,6 +28,8 @@ class EditProfileAsisten extends StatefulWidget {
   State<EditProfileAsisten> createState() => _EditProfileAsistenState();
 }
 
+/// ini merupakn tampilan dan backend code dari class ini. class ini berupa sebuah tampilan form.
+/// didalam class ini juga memanggil fungsi dari profileConroller.
 class _EditProfileAsistenState extends State<EditProfileAsisten> {
   // Deklarasi Controller dan form
   final formkey = GlobalKey<FormState>();

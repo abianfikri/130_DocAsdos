@@ -5,6 +5,10 @@ import 'package:final_exam_project/view/admin/matakuliah_page.dart';
 import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:flutter/material.dart';
 
+/// Class AddMatakuliah merupakan sebuah class yang membuat tampilan dari halaman AddMatakuliah.
+/// Widget yang digunakan adalah StatefullWidget yang mana widget ini bersifat dinamis dan dapay diubah-ubah.
+/// Pada class ini akan menampilkan beberapa data mulai dari Textformfield untuk create data matakuliah berupa
+/// nama matakuliah, nama dosen dan semester
 class AddMatakuliah extends StatefulWidget {
   const AddMatakuliah({super.key});
 
@@ -12,6 +16,8 @@ class AddMatakuliah extends StatefulWidget {
   State<AddMatakuliah> createState() => _AddMatakuliahState();
 }
 
+/// pada class ini terdapat fungsi penggunaan formkey untuk proses Form data
+/// memanggil fungsi MatakuliahContrller, dan juga membuat tampilan halaman AddMatakuliah
 class _AddMatakuliahState extends State<AddMatakuliah> {
   final formkey = GlobalKey<FormState>();
   final mkctr = MatakuliahController();

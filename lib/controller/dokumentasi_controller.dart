@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/model/dokumentasi_model.dart';
 
+/// Class Dokumentasi Controller menyimpan controller tentang program
+/// CRUD yang nantinya disimpan kedalam collection dokumens.
+/// data yang disimpan dapat berupa upluad foto, uidUser,docID,NamaMatkul,Tanggal,dan Jam.
 class DokumentasiController {
   final dokumentasiCollection =
       FirebaseFirestore.instance.collection('dokumens');
@@ -12,7 +15,7 @@ class DokumentasiController {
 
   Stream<List<DocumentSnapshot>> get stream => streamController.stream;
 
-  // Create Dokumentasi
+  /// Create Dokumentasi
   Future addDokumentasi(DokumentasiModel dkModel) async {
     final dokumen = dkModel.toMap();
 
@@ -32,7 +35,7 @@ class DokumentasiController {
     await getDokumentasi();
   }
 
-  // Get All Dokumentasi
+  /// Get All Dokumentasi
   Future getDokumentasi() async {
     final dokumen = await dokumentasiCollection.get();
     streamController.sink.add(dokumen.docs);
@@ -40,6 +43,7 @@ class DokumentasiController {
     return dokumen.docs;
   }
 
+  /// UpdateDokumentasi
   Future updateDokumentasi(DokumentasiModel dokumentasiModel) async {
     final DokumentasiModel updateDok = DokumentasiModel(
         id: dokumentasiModel.id,
@@ -55,6 +59,7 @@ class DokumentasiController {
     await getDokumentasi();
   }
 
+  /// Delete Dokumentasi
   Future deleteDokumentasi(String id) async {
     await dokumentasiCollection.doc(id).delete();
     await getDokumentasi();

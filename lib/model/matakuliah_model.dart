@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+/// Class Matakuliah Model untuk meyimpan data-data yang akan disimpan kedalam collection
+/// Matkuls. data yang disimpan meliputi id, nama Matkul, nama Dosen, dan semester
 class MatakuliahModel {
   String? id;
   final String namaMatkul;

@@ -9,6 +9,9 @@ import 'package:final_exam_project/view/halaman_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+/// Class MainPage bertugas untuk mengontrol jalannya halaman program
+/// ketika user membuka aplikasi lalu ditampilkan halaman splashscreen maka
+/// akan menuju halaman Mainpage sebagai pendeteksi user sudah melakukan login atau belum
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -16,11 +19,21 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
+/// Class _MainPageState bertugas untuk membuat method initState, CheckLoginStatus
+/// dan OnTap serta yang bertugas mengatur apakah login telah melakukan login atau belum.
+/// di dalam class ini juga bertugas untuk bottom Navigasi untuk setiap masing-masing user
 class _MainPageState extends State<MainPage> {
+  /// Memanggil Fungsi AutController
   final autctr = AuthController();
+
+  /// Deklarasi variable bool dengan nilai false
   bool isLoogedIn = false;
+
+  /// Deklarasi variable String untuk menedeteksi UserRole
   String? userRole;
   @override
+
+  /// Method untuk mengecek program yang dijalankan secara realtime
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -28,6 +41,8 @@ class _MainPageState extends State<MainPage> {
     checkLoginStatus();
   }
 
+  /// Method untuk mengecek status Login User ketika user keluar dari program
+  /// user tidak perlu login ulang karena ada fungsi ini untuk mengeceknya
   Future checkLoginStatus() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
@@ -49,6 +64,8 @@ class _MainPageState extends State<MainPage> {
   }
 
   int currentIndex = 0;
+
+  /// Method untuk pindah halaman menggunkan navigasi bottom
   void onTap(int index) {
     setState(() {
       currentIndex = index;
@@ -56,6 +73,8 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+
+  /// Bagian Halaman Navigasi Bottom untuk user Admin dan Asisten
   Widget build(BuildContext context) {
     if (isLoogedIn) {
       if (userRole == 'Admin') {
@@ -113,7 +132,7 @@ class _MainPageState extends State<MainPage> {
           ),
         );
       } else {
-        // Jika peran pengguna tidak dikenali, arahkan ke halaman login
+        /// Jika peran pengguna tidak dikenali, arahkan ke halaman login
         return HalamanLogin();
       }
     } else {
@@ -121,7 +140,7 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  // App bar Admin
+  /// App bar Admin
   AppBar buildAppBar() {
     String appBarTitle = '';
     if (currentIndex == 0 && userRole == 'Admin') {
@@ -132,6 +151,7 @@ class _MainPageState extends State<MainPage> {
       appBarTitle = 'Dokumentasi Page List';
     }
 
+    /// Membalikkan nilai AppBar
     return AppBar(
       backgroundColor: Colors.pink.shade700,
       centerTitle: true,
@@ -140,7 +160,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  // Pindah Halaman Khusus Admin
+  /// Pindah Halaman Khusus Admin dan Asisten menggunakan bantuan Switch and Case
   Widget _buildCurrentPage() {
     switch (currentIndex) {
       case 0:

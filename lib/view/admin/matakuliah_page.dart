@@ -6,6 +6,10 @@ import 'package:final_exam_project/view/admin/update_matakuliah.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+/// Class MatakuliahPage merupakan sebuah class untuk membuat frontend dan backend dari aplikasi ini.
+/// data yang ditampilkan berupa list nama matakuliah yang telah dibuag di dalam class AddMatakuliah
+/// data yang ditampilkan nantinya berupa list card nama matakuliah, semester dan code gambar yang memawikili
+/// semester.
 class MatakuliahPage extends StatefulWidget {
   const MatakuliahPage({super.key});
 
@@ -13,6 +17,8 @@ class MatakuliahPage extends StatefulWidget {
   State<MatakuliahPage> createState() => _MatakuliahPageState();
 }
 
+/// ini adalag class untuk membuat tampilan dan bacend dari matakuliahPage.
+/// dan juga di class ini memanggil fungsi MatakuliahController dan AuthController
 class _MatakuliahPageState extends State<MatakuliahPage> {
   var mkctr = MatakuliahController();
   final autctr = AuthController();
@@ -63,7 +69,7 @@ class _MatakuliahPageState extends State<MatakuliahPage> {
                       itemBuilder: (context, index) {
                         Color avatarColor;
 
-                        // Menentukan warna lingkaran avatar berdasarkan semester
+                        /// Menentukan warna lingkaran avatar berdasarkan semester
                         switch (data[index]['semester']) {
                           case '1':
                             avatarColor = Colors.blue;

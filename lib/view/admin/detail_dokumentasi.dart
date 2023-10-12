@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+/// Class DetailDokumentasi merupakan sebuah tampilan yang menampilkan detail data dari halaman Dokumentasi, disini
+/// Widget yang digunakan adalah statefulwidget karena data ini memuat informasi berupa tanggal, jam, gambar,
+/// nama matakuliah dan uid yang nantinya akan di convert menjadi data nama asisten dan username yang di render dari
+/// collection users
 class DetailDokumentasi extends StatefulWidget {
   const DetailDokumentasi(
       {super.key,
@@ -22,6 +26,8 @@ class DetailDokumentasi extends StatefulWidget {
   State<DetailDokumentasi> createState() => _DetailDokumentasiState();
 }
 
+/// ini adalah class untuk membuat tampilan dari detaildokumentasi dan memnangil fungsi-fungsi yanng telah dibuat
+/// seperti getAllDokumnetasi, get collection profile, firebaseAuth dan lain sebagainya
 class _DetailDokumentasiState extends State<DetailDokumentasi> {
   final CollectionReference profileCollection =
       FirebaseFirestore.instance.collection('profile');

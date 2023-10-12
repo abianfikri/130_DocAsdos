@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_exam_project/model/matakuliah_model.dart';
 
+/// Class MatakuliahController bertugas untuk menyimpan data MataKuliah,
+/// yang disimpan kedalam collectiin matkuls.
+/// dengan parameter yaitu docId,NamaMatakuliah,NamaDosen, dan Semester
+/// didalam class ini juga terdapat controller untuk CRUD
 class MatakuliahController {
   final matakuliahCollection = FirebaseFirestore.instance.collection('matkuls');
 
@@ -11,6 +15,7 @@ class MatakuliahController {
 
   Stream<List<DocumentSnapshot>> get stream => streamController.stream;
 
+  /// Create Matakuliah
   Future addMatkul(MatakuliahModel mkModel) async {
     final matkul = mkModel.toMap();
 
@@ -28,6 +33,7 @@ class MatakuliahController {
     await getMatkul();
   }
 
+  /// Get All Matakuliah or Read Matakuliah
   Future getMatkul() async {
     final matkul = await matakuliahCollection.get();
     streamController.sink.add(matkul.docs);
@@ -35,6 +41,7 @@ class MatakuliahController {
     return matkul.docs;
   }
 
+  /// Update Matakuliah
   Future updateMatkul(MatakuliahModel matakuliahModel) async {
     final MatakuliahModel updateMatkul = MatakuliahModel(
         id: matakuliahModel.id,
@@ -48,6 +55,7 @@ class MatakuliahController {
     await getMatkul();
   }
 
+  /// Delete Matakuliah
   Future deleteMatkul(String id) async {
     await matakuliahCollection.doc(id).delete();
     await getMatkul();

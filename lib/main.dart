@@ -5,12 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+/// Method Main using async yang bertugas untuk menjalan aplikasi
+/// memanggil fungsi Firebase dan menjalankan class MyApp
+/// dan juga menggunakan Method Future dan WidgetsFlutterBinding
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
+/// Class MyApp with statelessWidget
+/// digunakan untuk membuat tampilan static atau tampilan tetap
+/// dan menjalankan fungsi Class SplashPage menggunakan widget StateFull
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -27,6 +33,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Class SplashPage digunakan untuk menampilkan halaman splashscreen ketika program pertama kali dijalankan.
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -34,8 +41,14 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
+/// class SplashPageState bertugas untuk membuat tampilan halamn splashs screen
 class _SplashPageState extends State<SplashPage> {
   @override
+
+  /// method initState bertugas untuk menjalankan program secara realtime
+  /// didalam method ini terdapat Future.delayed bertugas untuk membuat jeda waktu
+  /// antara splashscreen dengan halaman MainPage selama 3 seconds.
+  /// dan menggunakan pushReplacement untuk pindah halaman
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 3)).then(
@@ -50,6 +63,8 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   @override
+
+  /// Membuat Widget untuk tampilan daripada halaman SplashScreen
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

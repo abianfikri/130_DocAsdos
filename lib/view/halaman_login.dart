@@ -5,6 +5,7 @@ import 'package:final_exam_project/model/user_model.dart';
 import 'package:final_exam_project/view/halaman_register.dart';
 import 'package:flutter/material.dart';
 
+/// Class ini diganakan untuk membuat tampilan dari halaman login
 class HalamanLogin extends StatefulWidget {
   const HalamanLogin({super.key});
 
@@ -12,6 +13,7 @@ class HalamanLogin extends StatefulWidget {
   State<HalamanLogin> createState() => _HalamanLoginState();
 }
 
+/// Halaman login disini membutuhkan fungsi dari AuthController, dan parameter yang dignaka untuk login adalah email dan password
 class _HalamanLoginState extends State<HalamanLogin> {
   final formkey = GlobalKey<FormState>();
   final authctr = AuthController();

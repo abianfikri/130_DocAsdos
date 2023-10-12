@@ -5,6 +5,10 @@ import 'package:final_exam_project/view/asisten/update_dokumentasi.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+/// Class DokumentasiAsisten merupakan class yang menampilkan list card dari hasil create dokumentasi.
+/// disini user dapat melihat data dokumentasi yang telah dibuat nya dan disimpan di dalam database.
+/// tetapi disini hanya data user itu saja yang akan ditampilkan karene get data nya by uid dari user
+/// yang create data dokumentasinya.
 class DokumentasiAsisten extends StatefulWidget {
   const DokumentasiAsisten({super.key});
 
@@ -12,6 +16,7 @@ class DokumentasiAsisten extends StatefulWidget {
   State<DokumentasiAsisten> createState() => _DokumentasiAsistenState();
 }
 
+/// Pada class ini menampilkan tampilan listcard DokumentasiAsisten
 class _DokumentasiAsistenState extends State<DokumentasiAsisten> {
   final dkctr = DokumentasiController();
   final user = FirebaseAuth.instance.currentUser!;

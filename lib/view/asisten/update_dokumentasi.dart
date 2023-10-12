@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+/// Class ini digunakan untuk update data Dokumentasi yang telahh di buat oleh Asisten.
+/// data yang di udpdate menggunakan form update lalu disimpan kembali kedalam collection yang sudah ada.
 class UpdateDokumentasi extends StatefulWidget {
   const UpdateDokumentasi(
       {super.key,
@@ -32,6 +34,7 @@ class UpdateDokumentasi extends StatefulWidget {
   State<UpdateDokumentasi> createState() => _UpdateDokumentasiState();
 }
 
+/// Fungsi yang digunakan dalam class ini adalah  dokumenatsiController, MatakuliahController dan FirebaseAuth
 class _UpdateDokumentasiState extends State<UpdateDokumentasi> {
   // Deklarsi Form dan Controller
   final formkey = GlobalKey<FormState>();
